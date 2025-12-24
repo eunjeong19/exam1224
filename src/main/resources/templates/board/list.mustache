@@ -25,19 +25,28 @@
 
                     head = "<tr>";
                     head += "<th class='col-1'>No</th>";
-                    head += "<th class='col-2'>Title</th>";
-                    head += "<th class='col-3'>Content</th>";
+                    head += "<th class='col-2'>작성자</th>";
+                    head += "<th class='col-3'>Title</th>";
+                    head += "<th class='col-4'>Content</th>";
                     head += "</tr>";
 
                     if(data.length == 0){ // 검색 결과가 없을 경우
                         body += "<tr><td colspan=3> 게시글이 없습니다. </td></tr>";
-                        $("#list").html(res);
+                        $("#list").html(body);
                     } else { // 검색 결과가 있거나 전체 목록이 있는 경우
                         $.each(data, function(i,field){
+
+                        var writer = "";  // 변수 선언
+                        if(field.name == null || field.name.trim() == ""){
+                            writer = "-";    // 데이터 없으면 기호 삽입
+                        } else {
+                            writer = field.name;   // 데이터 있으면 이름 삽입
+                        }
                             body += "<tr>";
                             body += "<td class='col-1'>"+field.id+"</td>";
-                            body += "<td class='col-2'><a href='/board/info/"+field.id+"'>"+field.title+"</a></td>";
-                            body += "<td class='col-3'><a href='/board/edit?id="+field.id+"'>"+field.content+"</a></td>";
+                            body += "<td class='col-2'>"+writer+"</td>";   // 변수 삽입 해줘야
+                            body += "<td class='col-3'><a href='/board/info/"+field.id+"'>"+field.title+"</a></td>";
+                            body += "<td class='col-4'><a href='/board/edit?id="+field.id+"'>"+field.content+"</a></td>";
                             body += "</tr>";
                         });
                         $("#list thead").html(head);
@@ -50,69 +59,44 @@
                 }
             });
         }
-        function add_ok(){ // 데이터 등록 ajax
-            var obj = {"title":$("#title").val(), "content":$("#content").val()};
-            $.ajax({
-                url:"/api/boards",
-                type:"POST",
-                contentType:"application/json; charset=utf-8",
-                data: JSON.stringify(obj),
-                dataType:"json",
-                success:function(data){
-                    // alert(data.title+data.content);
-                    var res = "<tr>";
-                        res += "<td class='col-1'>"+data.id+"</td>";
-                        res += "<td class='col-2'><a href='/board/info/"+data.id+"'>"+data.title+"</a></td>";
-                        res += "<td class='col-3'><a href='/board/edit?id="+data.id+"'>"+data.content+"</a></td>";
-                        res += "</tr>";
-                    $("#list").append(res);
-                    $("#title").val("");
-                    $("#content").val("");
-                }, error : function(xhr){
-                    alert(xhr.status);
-                    const error = JSON.parse(xhr.responseText);
-                    alert(error.message);
-                }
-            });
-        }
     </script>
 </head>
 <body>
 {{> layout/top}}
-<div class="container my-5" style="max-width:1100px;">
+<div class="container my-5" style="max-width:950px;">
 
-<div class="g-6 mb-5">
-    <h3 class="text-center"> 글 전체보기, 검색, 글 등록하기 </h3>
+<div class="text-center mb-5">
+    <div class="badge bg-info-subtle text-info mb-2 px-3">Board List</div>
+    <h2 class="fw-bold text-dark"> 글 전체보기 및 검색 </h2>
+    <p class="text-secondary small">자유롭게 소통하고 정보를 나눠요.</p>
+    <hr class="my-4 mx-auto" style="width: 50px; border-top: 3px solid #0dcaf0; opacity: 0.5;">
 </div>
 
-    <div class="input-group mb-5">
-<input type="text" name="search" id="search" class="form-control" placeholder="Search">
-<button onclick="list_ok();" class="btn btn-outline-secondary">검색</button>
+    <div class="row justify-content-center mb-5 g-3">
+        <div class="col-md-7">
+                <input type="text" name="search" id="search"
+                       class="form-control border-light-subtle p-3 shadow-sm rounded-3" placeholder="Search">
+        </div>
+        <div class="col-md-auto">
+                <button onclick="list_ok();" class="btn btn-outline-success px-4 h-100 shadow-sm rounded-3 fw-bold">
+                검색
+                </button>
+            </div>
     </div>
-<p></p>
 
-
-<table class="table table-striped table-bordered" id="list">
-    <thead class="table-light"></thead>
-    <tbody class="table-group-divider"></tbody>
+<div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0" id="list" style="border-collapse: separate;">
+            <thead class="table-light border-bottom"></thead>
+            <tbody class="text-secondary"></tbody>
 </table>
-
-<p></p>
-
-    <h3 class="text-center mt-5"> 글 등록하기 </h3>
-
-    <div class="mb-3">
-        <label for="title" class="form-label">제목</label>
-        <input type="text" name="title" id="title"
-               class="form-control" placeholder="제목 입력">
     </div>
-    <div class="mb-3">
-        <label for="content" class="form-label">내용</label>
-        <textarea name="content" id="content"
-                class="form-control" placeholder="내용 입력"></textarea>
-    </div>
-    <div class="d-flex justify-content-end mt-2">
-    <input type="button" value="Ajax로 글 등록하기" onclick="add_ok();">
+</div>
+
+    <div class="d-flex justify-content-end mt-4">
+        <a href="/board/input" class="btn btn-outline-info fw-bold px-4 py-2 shadow-sm rounded-3">
+            <i class="bi bi-pencil-fill me-1"></i> 새 글 작성하기
+        </a>
     </div>
 
 </div>

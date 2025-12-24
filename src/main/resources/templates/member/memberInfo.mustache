@@ -1,12 +1,55 @@
 {{> layout/top}}
 
-<h1> 회원 정보 확인하기 </h1>
-아이디 : {{mem.id}} <br/>
-비밀번호 : {{mem.password}} <br/>
-이름 : {{mem.name}} <br/>
-나이 : {{mem.age}} <br/>
-지역 : {{mem.addr}} <br/>
-연락처 : {{mem.mobile}} <br/>
-<button><a href="/home"> 홈으로 돌아가기 </a></button>
+<div class="container my-5 py-5" style="max-width: 800px;">
+    <div class="card shadow-sm border-0 p-4 p-md-5 bg-light">
+        <div class="card-body">
+
+            <div class="text-center mb-5">
+                <div class="badge bg-primary-subtle text-primary mb-2">My profile</div>
+
+                <h1 class="fw-bold"> {{mem.name}}님의 정보 </h1>
+                <p class="text-muted"> 회원님께서 등록하신 정보입니다. </p>
+                <hr class="my-4 mx-auto" style="width: 60px; border-top: 3px solid #0d6efd;">
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="bg-white rounded p-4 shadow-sm">
+                        <div class="d-flex justify-content-between border-bottom py-3">
+                            <span class="fw-bold text-secondary">아이디</span>
+                            <span class="text-dark">{{mem.id}}</span>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom py-3">
+                            <span class="fw-bold text-secondary">이름</span>
+                            <span class="text-dark">{{mem.name}}</span>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom py-3">
+                            <span class="fw-bold text-secondary">나이</span>
+                            <span class="text-dark">{{mem.age}}</span>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom py-3">
+                            <span class="fw-bold text-secondary">지역</span>
+                            <span class="text-dark">{{mem.addr}}</span>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom py-3">
+                            <span class="fw-bold text-secondary">연락처</span>
+                            <span class="text-dark">{{mem.mobile}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5 d-flex justify-content-center gap-3">
+                <a href="/member/memberEdit/{{mem.id}}" class="btn btn-success px-4 py-2 shadow-sm fw-bold">
+                    정보 수정하기
+                </a>
+                <a href="/member/home" class="btn btn-outline-primary px-4 py-2 shadow-sm fw-bold">
+                    홈으로 돌아가기
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 {{> layout/bottom}}

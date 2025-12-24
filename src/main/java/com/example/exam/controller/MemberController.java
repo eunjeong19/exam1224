@@ -137,7 +137,7 @@ public class MemberController {
 
         MemberForm user = (MemberForm)session.getAttribute("User"); // 세션 확인
         log.info("세션 정보 : {}", user.getId());
-        return "redirect:/home";
+        return "redirect:/member/home";
     }
 
     /*@GetMapping("/home")
@@ -152,7 +152,7 @@ public class MemberController {
         return "redirect:/member/memberLogin";
     }
 
-    @GetMapping("/home")
+    @GetMapping("/member/home")
     public String home(Model model){
         log.info("HomeController 진입");
         // 최신 게시글 5개 가져오기

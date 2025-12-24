@@ -12,18 +12,19 @@ import lombok.*;
 public class BoardForm {
 
     private Long id;
+    private String name;
     private String title;
     private String content;
 
     //DTO를 Entity로 변환
     // DTO에 추가하기
     public Board toEntity() {
-        return new Board(id, title, content);
+        return new Board(id, name, title, content);
     }
 
     //Entity를 DTO 로 변환
     // DTO에 추가하기
     public static BoardForm toDto(Board board) {
-        return new BoardForm(board.getId(), board.getTitle(), board.getContent());
+        return new BoardForm(board.getId(), board.getName(), board.getTitle(), board.getContent());
     }
 }

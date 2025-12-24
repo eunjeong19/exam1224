@@ -23,6 +23,9 @@ public class Board {
     private Long id;
 
     @Column // 테이블의 컬럼을 의미
+    private String name;
+
+    @Column
     private String title;
 
     @Column
