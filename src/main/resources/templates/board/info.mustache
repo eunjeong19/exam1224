@@ -1,0 +1,114 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        .comment-box{
+            white-space : pre-wrap;
+            word-break : break-word;
+            line-height : 1.5;
+            text-align:left;
+        }
+
+        .post-content{
+            white-space : pre-wrap;
+            word-break : break-word;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</head>
+<body>
+{{> layout/top}}
+
+<div class="container my-5" style="max-width : 900px;">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+        <h2 class="fw-bold m-0 ps-4"
+            style="border-left: 5px solid #0d6efd; padding-left:15px;"> 게시글 상세보기 </h2>
+    </div>
+
+    <!--게시글 상세보기-->
+<div class="card shadow-sm border-0 p-4 mb-4 bg-white rounded-3">
+    <div class="card-body">
+        <span class="badge bg-primary-subtle text-primary mb-3 px-3 py-2"> No. {{board.id}} </span>
+        <h3 class="fw-bold mb-3 ps-2">제목 : {{board.title}}</h3>
+        <hr class="my-4" style="border-top: 2px solid #f8f9fa;">
+        <div class="post-content text-secondary ps-2"
+             style="min-height: 250px; line-height: 1.8; font-size: 1.05rem;">
+            {{board.content}}
+        </div>
+    </div>
+</div>
+
+    <div class="d-flex justify-content-end mb-5 mt-3">
+        <a href="/board" class="btn btn-outline-secondary btn-sm px-4">
+            List로 돌아가기
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0 p-4 mb-4 bg-white rounded-3">
+    <h6 class="fw-bold mb-4 text-primary d-flex align-items-center">
+        <span class="badge bg-primary me-2" style="width:10px; height: 10px; border-radius: 50%; padding: 0;"></span>
+        댓글 {{count}}
+    </h6>
+
+        {{#msg}}
+            <script>
+                alert("{{msg}}");
+            </script>
+        {{/msg}}
+
+    {{#comment}}
+    <div class="card border-0 p-3 mb-3 bg-light rounded-3">
+        <div class="mb-2">
+           <a href="/comment/commentEdit/{{id}}"
+              class="fw-bold text-dark text-decoration-none" style="font-size: 0.95rem;">
+               {{name}}
+           </a>
+        </div>
+
+            <div class="comment-box text-secondary" style="line-height:1.6; font-size:0.9rem;">
+                {{content}}
+            </div>
+
+            <div class="text-end mt-2">
+                <button class="btn btn-sm text-danger text-decoration-none p-0"
+                        style="font-size : 0.8rem; opacity: 0.8;"
+                        onclick="location.href='/comment/delete/{{id}}?board_id={{board.id}}'">
+                댓글 삭제
+                </button>
+            </div>
+        </div>
+        {{/comment}}
+
+        {{^comment}}
+            <p class="text-muted small py-4">등록된 댓글이 없습니다.</p>
+        {{/comment}}
+    </div>
+
+    <!--댓글 등록 -->
+    <div class="card shadow-sm border-0 p-4 mb-5 bg-white rounded-3">
+        <h6 class="mb-3 text-dark fw-bold"> 댓글 남기기 </h6>
+            <form method="post" action="/comment/create">
+                <input type="hidden" name="board_id" value="{{board.id}}">
+                <div class="mb-3">
+                <!--<label class="form-label">작성자</label>-->
+                    <input type="text" name="name" class="form-control border-light-subtle bg-light" placeholder="작성자"
+                           style="max-width: 200px; font-size: 0.9rem;">
+                    </div>
+
+                <!--<label class="form-label">댓글</label>-->
+                <div class="mb-3">
+                <textarea name="content" rows="3" class="form-control border-light-subtle bg-light" placeholder="댓글을 입력하세요"
+                          style="font-size: 0.9rem;"></textarea>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-outline-primary btn-sm px-4 fw-bold"> 댓글 등록 </button>
+                </div>
+            </form>
+    </div>
+    </div><!--container 닫기-->
+{{> layout/bottom}}
+</body>
+</html>

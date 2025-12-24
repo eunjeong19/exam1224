@@ -1,0 +1,15 @@
+{{> layout/top}}
+
+<h1> 회원가입 </h1>
+
+<form method="get" action="/member/memberInput_ok">
+    아이디 : <input type="text" name="id"><br/>
+    Password : <input type="text" name="password"><br/>
+    이름 : <input type="text" name="name"><br/>
+    나이 : <input type="number" name="age"><br/>
+    지역 : <input type="text" name="addr"><br/>
+    연락처 : <input type="text" name="mobile"><br/>
+    <button> 회원 가입 하기 </button>
+</form>
+
+{{> layout/bottom}}

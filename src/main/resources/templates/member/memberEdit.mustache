@@ -1,0 +1,15 @@
+{{> layout/top}}
+
+<h2> 회원 정보 수정하기 </h2>
+
+<form method="post" action="/member/memberModify">
+    아이디 : {{member.id}} <input type="hidden" name="id" value="{{member.id}}"><br/>
+    비밀번호 : <input type="text" name="password" value="{{member.password}}"><br/>
+    이름 : <input type="text" name="name" value="{{member.name}}"><br/>
+    나이 : <input  type="number" name="age" value="{{member.age}}"><br/>
+    지역 : <input type="text" name="addr" value="{{member.addr}}"><br/>
+    연락처 : <input type="text" name="mobile" value="{{member.mobile}}"><br/>
+    <button> 정보 수정하기 </button>
+</form>
+
+{{> layout/bottom}}

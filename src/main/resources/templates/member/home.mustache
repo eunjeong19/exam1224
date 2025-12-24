@@ -1,0 +1,68 @@
+{{> layout/top}}
+
+<div class="container my-5" style="max-width: 1100px;">
+    <div class="card shadow-sm border-0 p-5 bg-light mb-4">
+        <div class="card-body text-center">
+            <h2 class="fw-bold mb-3">메인 홈 화면</h2>
+            <p class="text-secondary fs-5 mb-4">이 사이트는 회원 전용 게시판 서비스입니다.</p>
+            <hr class="my-4 mx-auto" style="width: 100px; border-top: 3px solid #0d6efd;">
+
+            <div class="d-grid gap-2 d-md-block">
+                <a href="/board" class="btn btn-primary btn-lg px-4 me-md-2">게시글 보러가기</a>
+                {{^user}}
+                    <a href="/member/memberInput" class="btn btn-outline-secondary btn-lg px-4">회원가입</a>
+                {{/user}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100 p-3">
+                <div class="card-body">
+                    <div class="badge bg-primary-subtle text-primary mb-3">Community</div>
+                    <h5 class="fw-bold">전체 게시글</h5>
+                    <p class="display-6 fw-bold text-primary">{{totalBoard}}</p> <p class="text-muted small">현재까지 등록된 소중한 의견들입니다.</p>
+                    <a href="/board" class="btn btn-sm btn-outline-primary w-100">게시판 가기</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100 p-3">
+                <div class="card-body">
+                    <div class="badge bg-success-subtle text-success mb-3">Recent</div>
+                    <h5 class="fw-bold mb-3">최근 게시글</h5>
+                    <ul class="list-unstyled small">
+                        {{#latestBoard}}
+                            <li class="text-truncate mb-2">
+                                <a href="/board/info/{{id}}" class="text-decoration-none text-dark border-bottom pb-1 d-block">
+                                    • {{title}}
+                                </a>
+                            </li>
+                        {{/latestBoard}}
+                        {{^latestBoard}}
+                            <li class="text-muted">아직 게시글이 없습니다.</li>
+                        {{/latestBoard}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100 p-3">
+                <div class="card-body text-center">
+                    <div class="badge bg-warning-subtle text-warning mb-3">Members</div>
+                    <h5 class="fw-bold">전체 회원</h5>
+                    <p class="display-6 fw-bold text-warning">{{totalMember}}명</p> <p class="text-muted small">많은 분들이 소통하고 계십니다.</p>
+                    {{#user}}
+                        <a href="/member/memberInfo/{{id}}" class="btn btn-sm btn-warning text-white w-100 fw-bold">내 정보 보기</a>
+                    {{/user}}
+                    {{^user}}
+                        <a href="/member/memberLogin" class="btn btn-sm btn-outline-warning w-100">로그인하기</a>
+                    {{/user}}
+                </div>
+            </div>
+        </div>
+    </div>
+{{> layout/bottom}}
