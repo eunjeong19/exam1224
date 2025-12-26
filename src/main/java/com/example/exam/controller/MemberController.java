@@ -121,23 +121,35 @@ public class MemberController {
     }
 
     @GetMapping("/member/memberLogin")
-    public String loginMember(@RequestParam(required = false) String msg, Model model){
+    public String loginMember(@RequestParam(required = false) String msg,
+                              @RequestParam(required = false) String link, Model model){
         if("required".equals(msg)){
             model.addAttribute("message","로그인이 필요한 페이지입니다.");
+            // 이전페이지 정보 추가
+            model.addAttribute("link", link);
+            System.out.println("이전 페이지 정보" + link);
         }
         return "member/memberLogin";
     }
 
     // 아이디/비밀번호 검증 + 세션 생성
     @PostMapping("/member/auth")
-    public String authMember(MemberForm form, HttpSession session){
+    public String authMember(MemberForm form, HttpSession session,
+                             @RequestParam(required = false) String link){
         log.info("dto {}", form.toString());
         MemberForm loginedMember = memberService.login(form); // 로그인처리
         session.setAttribute("User", loginedMember); // 세션에 로그인 정보 저장
 
         MemberForm user = (MemberForm)session.getAttribute("User"); // 세션 확인
         log.info("세션 정보 : {}", user.getId());
-        return "redirect:/member/home";
+
+        // 이전 페이지 리다이렉트 수정
+        log.info("이전 페이지 : {}", link);
+        if(link == null || link.isBlank()){
+            return "redirect:/home";
+        } else {
+            return "redirect:"+link;
+        }
     }
 
     /*@GetMapping("/home")
@@ -149,10 +161,10 @@ public class MemberController {
     @GetMapping("/member/memberLogout")
     public String logout(HttpSession session){
         session.invalidate();
-        return "redirect:/member/memberLogin";
+        return "redirect:/home";
     }
 
-    @GetMapping("/member/home")
+    @GetMapping("/home")
     public String home(Model model){
         log.info("HomeController 진입");
         // 최신 게시글 5개 가져오기

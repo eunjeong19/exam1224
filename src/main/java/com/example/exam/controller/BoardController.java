@@ -2,10 +2,12 @@ package com.example.exam.controller;
 
 import com.example.exam.DTO.BoardForm;
 import com.example.exam.DTO.CommentForm;
+import com.example.exam.DTO.MemberForm;
 import com.example.exam.entity.Board;
 import com.example.exam.repository.BoardRepository;
 import com.example.exam.service.BoardService;
 import com.example.exam.service.CommentService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -108,5 +110,27 @@ public class BoardController {
         } else{
             return "error/errorAll";
         }
+    }
+
+    @GetMapping("/board/mylist")
+    public String listMyBoard(HttpSession session, Model model){
+        // 1. 세션에서 로그인 유저 정보 가져오기
+        MemberForm user = (MemberForm)session.getAttribute("User");
+        // System.out.println(user.getId());
+
+        // 2. 로그인 여부 확인
+        if(user == null){
+            return "redirect:/member/memberLogin";
+            // 로그인 안 되었으면 로그인 페이지로
+        }
+
+        // 3. 본인 이름으로 작성된 글만 가져오기
+        List<Board> myBoard = boardService.getMyList(user.getName());
+
+        // 4. model에 담아서 뷰로 전달
+        model.addAttribute("mylist", myBoard);
+        model.addAttribute("count", myBoard.size());
+
+        return "board/mylist";
     }
 }

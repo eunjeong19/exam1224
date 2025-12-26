@@ -137,6 +137,11 @@ public class BoardService {
     public List<Board> findTop5(){
         return boardRepository.findTop5ByOrderByIdDesc();
     }
+
+    // 작성자 select 해서 가지고 오는 기능
+    public List<Board> getMyList(String name){
+        return boardRepository.findByName(name);
+    }
 }
 
 

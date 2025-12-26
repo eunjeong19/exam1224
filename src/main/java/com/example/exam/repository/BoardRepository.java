@@ -11,4 +11,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     // 최신 글 5개만 가져오기 (ID 역순으로 상위 5개)
     List<Board> findTop5ByOrderByIdDesc();
+
+    List<Board> findByName(String name);
 }

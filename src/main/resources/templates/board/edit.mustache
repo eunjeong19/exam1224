@@ -3,6 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
         function modify_ok(){
@@ -26,15 +27,78 @@
       }
     </script>
 </head>
-<body>
-<h2> 게시글 수정 </h2>
+<body class="bg-light">
+{{> layout/top}}
 
-<form method="post" action="/board/modify">
-    글 번호 : {{board.id}} <input type="hidden" name="id" id="id" value="{{board.id}}"><br/>
-    제목 : <input type="text" name="title" id="title" value="{{board.title}}"><br/>
-    내용 : <textarea name="content" id="content">{{board.content}}</textarea><br/>
-    <button> 수정하기 </button> <input type="button" value="Ajax로 글 수정하기" onclick="modify_ok();">
-</form>
+<div class="container my-5 py-5" style="max-width: 800px;">
+    <div class="mb-4 px-2 d-flex justify-content-between align-items-end">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                    <li class="breadcrumb-item"><a href="/board" class="text-decoration-none text-primary small fw-bold">Board List</a></li>
+                    <li class="breadcrumb-item active small" aria-current="page">Edit Post</li>
+                </ol>
+            </nav>
+            <h2 class="fw-bold m-0"><i class="bi bi-pencil-square me-2 text-primary"></i> 게시글 수정 </h2>
+        </div>
+    </div>
 
+        <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+            <div style="height: 5px; background: linear-gradient(to right, #0d6efd, #0dcaf0);"></div>
+
+            <div class="card-body p-4 p-md-5 bg-white">
+            <form method="post" action="/board/modify">
+                <div class="row mb-4 align-items-center">
+                    <label class="col-sm-2 fw-bold text-secondary">글 정보</label>
+                    <div class="col-sm-10 d-flex align-items-center gap-3">
+                        <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold">
+                            No.{{board.id}}
+                        </span>
+                        <div class="vr text-secondary opacity-25" style="height: 20px;"></div>
+                        <div class="d-flex align-items-center py-1">
+                            {{^board.name}}
+                                <i class="bi bi-person-fill text-secondary me-2"></i>
+                            {{/board.name}}
+                            <span class="text-secondary small me-2 fw-bold text-dark">
+                               작성자 {{#board.name}} : {{board.name}}{{/board.name}}
+                            </span>
+                        </div>
+                        <input type="hidden" name="id" id="id" value="{{board.id}}">
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <label for="title" class="col-sm-2 col-form-label fw-bold text-secondary">제목</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="title" id="title" class="form-control form-control-lg border-light-subtle bg-light shadow-sm"
+                               value="{{board.title}}" placeholder="제목 입력">
+                </div>
+                </div>
+
+                <div class="row mb-5">
+                    <label for="content" class="col-sm-2 col-form-label fw-bold text-secondary">내용</label>
+                    <div class="col-sm-10">
+                        <textarea name="content" id="content" rows="12"
+                                  class="form-control border-light-subtle bg-light shadow-sm p-3"
+                                placeholder="내용 입력">{{board.content}}</textarea>
+                </div>
+                </div>
+
+                <hr class="my-4" style="opacity: 0.1;">
+
+                <div class="text-center d-flex justify-content-center gap-3">
+                    <button type="button" onclick="modify_ok();"
+                            class="btn btn-primary btn-lg px-5 shadow-sm fw-bold rounded-3">
+                        <i class="bi bi-check-circle me-2"></i> 수정하기
+                    </button>
+                 <a href="javascript:history.back();" class="btn btn-outline-light text-secondary btn-lg px-4 fw-bold rounded-3 border-light-subtle">
+                     취소 </a>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+{{> layout/bottom}}
 </body>
 </html>
